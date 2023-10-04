@@ -2,6 +2,11 @@ const searchButton = document.getElementById("search-button");
 const clearButton = document.getElementById("clear-button");
 const mealNameInput = document.getElementById("meal-name");
 const mealList = document.getElementById("meals");
+var food = '';
+var data = JSON.stringify({
+    'query': food
+  });
+var ingredientNutrition = ""
 
 searchButton.addEventListener("click", () => {
     const mealName = mealNameInput.value;
@@ -82,3 +87,38 @@ searchButton.addEventListener("click", () => {
     // Display meal images after fetching meal data
     displayMealImages();
 });
+
+
+document.addEventListener('click', function(event){
+    event.preventDefault();
+    var list = event.target;
+    if (list.matches("li")){
+        console.log(list.innerText);
+        food = list.innerText;
+        nutrition(food);
+    }
+})
+
+function nutrition(foody){
+    var data = JSON.stringify({
+        'query': foody
+      });
+
+    let xhr = new XMLHttpRequest();
+    // xhr.withCredentials = true;
+    xhr.open('POST', 'https://trackapi.nutritionix.com/v2/natural/nutrients');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('x-app-id', 'ffa96114');
+    xhr.setRequestHeader('x-app-key', 'c77cb8553663ea0e9b3b091d44ce0177');
+    
+    xhr.onload = function() {
+      // console.log(xhr.response);
+      var butterNutrients = JSON.parse(xhr.response);
+      ingredientNutrition = butterNutrients.foods[0].nf_calories;
+      alert("Calories: " + ingredientNutrition)
+
+    };
+    
+    xhr.send(data);
+    
+}
