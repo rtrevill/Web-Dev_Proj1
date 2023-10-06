@@ -3,28 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meal Search</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Munchies</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Meal Search</h1>
-    </header>
-
-    <main>
-        <section id="search-form">
-            <h2>Search Meals by Name</h2>
-            <input type="text" id="meal-name" placeholder="Enter meal name">
-            <button id="search-button">Search</button>
-            <button id="clear-button">Clear</button> <!-- Add the Clear button -->
-        </section>
-
-        <section id="meal-list">
-            <h2>Meals</h2>
-            <ul id="meals"></ul>
-        </section>
-    </main>
-
+    <div class="container">
+        <h1>Munchies</h1>
+        <form id="search-form">
+            <!-- Input field for entering a meal name to search -->
+            <input class="search-bar" type="text" id="meal-name" placeholder="Find a Recipe">
+            <!-- Button to submit the search form -->
+            <button class="search-button" type="submit">Search</button>
+            <!-- Button to clear the input field and results -->
+            <button class="search-button" type="button" id="clear-button">Clear</button>
+        </form>
+        <!-- List to display search results -->
+        <ul id="meals"></ul>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
