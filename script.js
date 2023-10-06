@@ -22,6 +22,7 @@ searchButton.addEventListener("click", () => {
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             if (data.meals) {
                 data.meals.forEach(meal => {
                     const mealName = meal.strMeal;
@@ -46,7 +47,6 @@ searchButton.addEventListener("click", () => {
                             ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join("")}
                         </ul>
                     `;
-
                     mealList.appendChild(li);
                 });
             } else {
