@@ -71,7 +71,7 @@ fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=' + mealName)
 .then(response => response.json())
 .then(data => {
     console.log(data.meals);
-    // ingredCalories = [];
+    ingredCalories = [];
     var mealObject = data.meals[1];
 
     var title = mealObject.strMeal;
@@ -83,6 +83,7 @@ fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=' + mealName)
 
 
     $('#meals').append(header);
+
     for (var i=1; i < 20; i++){
         // console.log(this);
         var ingred = ("strIngredient" + [i]);
@@ -95,7 +96,7 @@ fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=' + mealName)
         $(newLi).text(measureReal + " " + ingredReal);
         $('.menuTitle').append(newLi);
         var ingredMeasure = (measureReal + " " + ingredReal);
-        // nutrition(ingredMeasure);
+        nutrition(ingredMeasure);
 
 
     }
@@ -181,22 +182,22 @@ function nutrition(foody){
     // xhr.withCredentials = true;
     xhr.open('POST', 'https://trackapi.nutritionix.com/v2/natural/nutrients');
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('x-app-id', 'ffa96114');
-    xhr.setRequestHeader('x-app-key', 'c77cb8553663ea0e9b3b091d44ce0177');
+    xhr.setRequestHeader('x-app-id', '85bf26cc');
+    xhr.setRequestHeader('x-app-key', '870ce77a00d37c45bcebfbc8725e4f11');
     
     xhr.onload = function() {
       // console.log(xhr.response);
       var butterNutrients = JSON.parse(xhr.response);
       ingredientNutrition = butterNutrients.foods[0].nf_calories;
-      alert("Calories: " + ingredientNutrition);
+    //   alert("Calories: " + ingredientNutrition);
       console.log(ingredientNutrition);
 
-    //   var ingredNut = {
-    //       "name": foody,
-    //       "cal" : ingredientNutrition,
-    //   }
-    //   ingredCalories.push(ingredNut);
-    //   console.log(ingredCalories);
+      var ingredNut = {
+          "namey": foody,
+          "calories" : ingredientNutrition,
+      };
+      ingredCalories.push(ingredNut);
+      console.log(ingredCalories);
 
     };
     
