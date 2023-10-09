@@ -1,35 +1,54 @@
 body {
-    font-family: Arial, sans-serif;
-}
-
-header {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-}
-
-main {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h2 {
-    margin-top: 20px;
-}
-
-ul {
-    list-style: none;
+    background-color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    margin: 0;
     padding: 0;
 }
 
-li {
-    margin-bottom: 10px;
+.container {
+    background-color: rgb(255, 200, 21);
+    margin: 50px auto;
+    padding: 30px;
+    width: 70%;
+    border-radius: 15px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: black;
+    font-size: 50px;
+    margin: 0;
+    text-align: center;
+    padding: 20px 0;
 }
 
 form {
-    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0;
 }
 
-/* Add more CSS styles as needed */
+.search-bar {
+    background-color: floralwhite;
+    border: 2px solid grey;
+    font-size: 25px;
+    padding: 12px;
+    width: 300px;
+    margin-right: 10px;
+}
+
+.search-button {
+    background-color: rgb(216, 216, 216);
+    border: 2px solid grey;
+    color: black;
+    font-size: 25px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: rgb(186, 186, 186);
+}

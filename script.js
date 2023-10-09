@@ -1,124 +1,57 @@
-const searchButton = document.getElementById("search-button");
-const clearButton = document.getElementById("clear-button");
-const mealNameInput = document.getElementById("meal-name");
-const mealList = document.getElementById("meals");
-var food = '';
-var data = JSON.stringify({
-    'query': food
-  });
-var ingredientNutrition = ""
+// Get references to various HTML elements
+const searchForm = document.getElementById("search-form"); // The search form
+const clearButton = document.getElementById("clear-button"); // The clear button
+const mealNameInput = document.getElementById("meal-name"); // The input field for meal name
+const mealList = document.getElementById("meals"); // The list to display search results
 
-searchButton.addEventListener("click", () => {
-    const mealName = mealNameInput.value;
-    if (mealName.trim() === "") {
-        alert("Please enter a meal name.");
-        return;
+// Add an event listener to the search form to handle form submission
+searchForm.addEventListener("submit", (event) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    // Get the meal name entered in the input field
+    const queryMealName = mealNameInput.value;
+
+    // Check if the input is empty
+    if (queryMealName.trim() === "") {
+        alert("Please enter a meal name."); // Show an alert message if the input is empty
+        return; // Exit the function
     }
 
-    // Clear previous search results
-    mealList.innerHTML = "";
+    mealList.innerHTML = ""; // Clear the previous search results
 
-    // Make a request to the API
-    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
-        .then(response => response.json())
+    // Fetch meal data from an external API (TheMealDB)
+    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${queryMealName}`)
+        .then(response => {
+            // Check if the HTTP response is successful
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the response as JSON
+        })
         .then(data => {
             console.log(data);
             if (data.meals) {
+                // If meals are found in the data, iterate through them
                 data.meals.forEach(meal => {
                     const mealName = meal.strMeal;
-                    const ingredients = [];
-
-                    // Extract ingredients and measurements
-                    for (let i = 1; i <= 20; i++) {
-                        const ingredient = meal[`strIngredient${i}`];
-                        const measurement = meal[`strMeasure${i}`];
-
-                        if (ingredient && measurement) {
-                            ingredients.push(`${measurement} ${ingredient}`);
-                        }
-                    }
-
-                    // Create a list item for each meal with ingredients
                     const li = document.createElement("li");
                     li.classList.add("meal-item");
-                    li.innerHTML = `
-                        <strong class="meal-name">${mealName}</strong>
-                        <ul>
-                            ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join("")}
-                        </ul>
-                    `;
-                    mealList.appendChild(li);
+                    // Create a link to meal.html with the meal name as a query parameter
+                    li.innerHTML = `<a href="meal.html?name=${encodeURIComponent(mealName)}">${mealName}</a>`;
+                    mealList.appendChild(li); // Append the link to the list
                 });
             } else {
-                mealList.innerHTML = "No meals found.";
+                mealList.innerHTML = "<li>No meals found.</li>"; // Display a message if no meals are found
             }
         })
         .catch(error => {
             console.error("Error fetching data:", error);
+            mealList.innerHTML = "<li>Error loading meals. Please try again later.</li>"; // Handle errors
         });
 });
 
+// Add an event listener to the clear button to reset the input and search results
 clearButton.addEventListener("click", () => {
     mealNameInput.value = ""; // Clear the input field
     mealList.innerHTML = ""; // Clear the search results
 });
-
-// Function to fetch and display meal images
-function displayMealImages() {
-    const mealItems = document.querySelectorAll(".meal-item");
-
-    mealItems.forEach(mealItem => {
-        const mealName = mealItem.querySelector(".meal-name").textContent;
-
-        // Use Lorem Picsum for placeholder images
-        const imageUrl = `https://picsum.photos/200?random=${mealName}`;
-
-        const imageElement = document.createElement("img");
-        imageElement.src = imageUrl;
-        imageElement.alt = mealName;
-
-        mealItem.appendChild(imageElement);
-    });
-}
-
-searchButton.addEventListener("click", () => {
-    // ... (previous code for searching and displaying meals) ...
-
-    // Display meal images after fetching meal data
-    displayMealImages();
-});
-
-
-document.addEventListener('click', function(event){
-    event.preventDefault();
-    var list = event.target;
-    if (list.matches("li")){
-        console.log(list.innerText);
-        food = list.innerText;
-        nutrition(food);
-    }
-})
-
-function nutrition(foody){
-    var data = JSON.stringify({
-        'query': foody
-      });
-
-    let xhr = new XMLHttpRequest();
-    // xhr.withCredentials = true;
-    xhr.open('POST', 'https://trackapi.nutritionix.com/v2/natural/nutrients');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('x-app-id', 'ffa96114');
-    xhr.setRequestHeader('x-app-key', 'c77cb8553663ea0e9b3b091d44ce0177');
-    
-    xhr.onload = function() {
-      // console.log(xhr.response);
-      var butterNutrients = JSON.parse(xhr.response);
-      ingredientNutrition = butterNutrients.foods[0].nf_calories;
-      alert("Calories: " + ingredientNutrition)
-
-    };
-    
-    xhr.send(data);
-    
-}
