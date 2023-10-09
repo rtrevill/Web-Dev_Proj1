@@ -29,6 +29,7 @@ searchForm.addEventListener("submit", (event) => {
             return response.json(); // Parse the response as JSON
         })
         .then(data => {
+            console.log(data);
             if (data.meals) {
                 // If meals are found in the data, iterate through them
                 data.meals.forEach(meal => {
