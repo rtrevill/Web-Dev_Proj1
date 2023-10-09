@@ -2,6 +2,8 @@
 if (window.location.pathname.includes("meal.html")) {
     // Get the meal name from the URL query parameter
     var nameOfMeal;
+    var mealCal=0;
+    var ingredCalories = [];
     const mealNameQuery = new URLSearchParams(window.location.search).get("name");
 
     // Fetch meal details from an external API (TheMealDB)
@@ -53,7 +55,7 @@ if (window.location.pathname.includes("meal.html")) {
 
 
                 // Call the nutrition function to calculate and display nutrition data
-                nutrition(meal.strMeal);
+                //nutrition(meal.strMeal);
 
                 // Display meal details in the HTML
                 document.getElementById("meal-full-details").innerHTML = detailsHTML;
@@ -67,6 +69,8 @@ if (window.location.pathname.includes("meal.html")) {
             console.error("Error fetching meal details:", error);
             document.getElementById("meal-title").textContent = "Error loading meal details. Please try again later.";
         });
+    document.getElementById("meal-nutrition").textContent = "Calories: " + mealCal;
+
 }
 
 
@@ -97,10 +101,15 @@ function search(mealName){
             console.log(ingredReal, measureReal);
             var newLi = $('<li>');
             $(newLi).attr('id', ingredReal);
+            $(newLi).addClass("ingredient");
             $(newLi).text(measureReal + " " + ingredReal);
             $('#ingredient-list').append(newLi);
+            var ingredMeasure = (measureReal + " " + ingredReal);
+            nutrition(ingredMeasure);
+            // document.getElementById("meal-nutrition").textContent = "Calories: " + mealCal;
+
             };
-    
+            
         }
 
         $("li").on("click", function() {
@@ -114,7 +123,26 @@ function search(mealName){
           }
         );   // $(ingredient).attr('id', this.strIngredient[i]);
         
+
+        $("li").hover(function() {
+            console.log(this.innerText);
+            // console.log(ingredCalories[0].namey);
+            for (let names in ingredCalories){
+                // console.log(this);
+                if ((ingredCalories[names].namey)===(this.innerText)){
+                console.log(ingredCalories[names].namey, ingredCalories[names].calories);
+                $('#ingredient-nutrition').text(ingredCalories[names].namey + " "+ ingredCalories[names].calories + " calories");
+    
+                };
+    
+            };
+            
+            
+    
+        })
             // $('.menutitle').append(ingredient);
+        // document.getElementById("meal-nutrition").textContent = "Calories: " + mealCal;
+
         })
     }
 
@@ -132,20 +160,31 @@ function nutrition(foody) {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://trackapi.nutritionix.com/v2/natural/nutrients');
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('x-app-id', 'ffa96114');
-    xhr.setRequestHeader('x-app-key', 'c77cb8553663ea0e9b3b091d44ce0177');
+    xhr.setRequestHeader('x-app-id', '85bf26cc');
+    xhr.setRequestHeader('x-app-key', '870ce77a00d37c45bcebfbc8725e4f11');
 
-    xhr.onload = function () {
+    var tempo2 = xhr.onload = function () {
         // Parse the nutrition data received from the API
         var butterNutrients = JSON.parse(xhr.response);
         ingredientNutrition = butterNutrients.foods[0].nf_calories;
-        
+
+        console.log(ingredientNutrition);
+        mealCal += ingredientNutrition;
         // Display the calculated calories (nutrition) in the HTML
-        document.getElementById("meal-nutrition").textContent = "Calories: " + ingredientNutrition;
+        // document.getElementById("meal-nutrition").textContent = "Calories: " + ingredientNutrition;
+        var ingredNut = {
+            "namey": foody,
+            "calories" : ingredientNutrition,
+        };
+        ingredCalories.push(ingredNut);
+        console.log(ingredCalories);
+ 
+
     };
 
     // Send the nutrition API request
     xhr.send(data);
+    
 }
 
 function createPic(text){

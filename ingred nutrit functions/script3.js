@@ -93,6 +93,7 @@ fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=' + mealName)
         console.log(ingredReal, measureReal);
         var newLi = $('<li>');
         $(newLi).attr('id', ingredReal);
+        // $(newLi).attr('class', 'ingredient');
         $(newLi).text(measureReal + " " + ingredReal);
         $('.menuTitle').append(newLi);
         var ingredMeasure = (measureReal + " " + ingredReal);
