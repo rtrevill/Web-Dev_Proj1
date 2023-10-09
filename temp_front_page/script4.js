@@ -21,17 +21,17 @@ searchButton.addEventListener("click", () => {
 
     // Make a request to the API
     // fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
-    fetch('https://api.spoonacular.com/recipes/complexSearch?query='+ mealName +'&maxFat=25&number=2&apiKey=5c5811329c4d411ea84e8cc051755f22')
+    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
 
         .then(response => response.json())
         .then(data => {
             console.log(data);
             fullList = data;
-            if (data.results) {
-                const mealNames = [];
-                data.results.forEach(meal => {
-                    const mealName = meal.title;
-                    mealNames.push(meal.title);
+            if (data.meals) {
+                var mealNames = [];
+                data.meals.forEach(meal => {
+                    const mealName = meal.strMeal;
+                    mealNames.push(meal.strMeal);
                     console.log(mealNames);
                     // Extract ingredients and measurements
                     // for (let i = 1; i <= 20; i++) {
@@ -55,7 +55,6 @@ searchButton.addEventListener("click", () => {
                         event.preventDefault();
                         var list = event.target;
                         if (list.matches(".meal-title")){
-                            console.log(this);
                             console.log(list.innerText);
                             food = list.innerText;
                             // nutrition(food);
@@ -64,9 +63,11 @@ searchButton.addEventListener("click", () => {
                             for (var yum of mealNames){
                                 console.log(yum);
                                 if (yum == food){
-                                    console.log(mealNames[yum]);
+                                    console.log(i);
+                                    console.log(mealNames[i]);
+                                    console.log(data.meals[i]);
                                     mealNumber = i;
-                                    localStorage.setItem("selected-meal", JSON.stringify(data.results[i]));
+                                    localStorage.setItem("selected-meal", JSON.stringify(data.meals[i]));
                                 };
                                 i++;
                             };
