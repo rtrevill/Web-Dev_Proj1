@@ -20,16 +20,18 @@ searchButton.addEventListener("click", () => {
     mealList.innerHTML = "";
 
     // Make a request to the API
-    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
+    // fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
+    fetch('https://api.spoonacular.com/recipes/complexSearch?query='+ mealName +'&maxFat=25&number=2&apiKey=5c5811329c4d411ea84e8cc051755f22')
+
         .then(response => response.json())
         .then(data => {
             console.log(data);
             fullList = data;
-            if (data.meals) {
+            if (data.results) {
                 const mealNames = [];
-                data.meals.forEach(meal => {
-                    const mealName = meal.strMeal;
-                    mealNames.push(data.strMeal);
+                data.results.forEach(meal => {
+                    const mealName = meal.title;
+                    mealNames.push(meal.title);
                     console.log(mealNames);
                     // Extract ingredients and measurements
                     // for (let i = 1; i <= 20; i++) {
@@ -47,6 +49,30 @@ searchButton.addEventListener("click", () => {
                     li.innerHTML = `
                         <strong class="meal-title">${mealName}</strong>
                     `;
+                    
+
+                    document.addEventListener('click', function(event){
+                        event.preventDefault();
+                        var list = event.target;
+                        if (list.matches(".meal-title")){
+                            console.log(this);
+                            console.log(list.innerText);
+                            food = list.innerText;
+                            // nutrition(food);
+                            var mealNumber;
+                            var i=0;
+                            for (var yum of mealNames){
+                                console.log(yum);
+                                if (yum == food){
+                                    console.log(mealNames[yum]);
+                                    mealNumber = i;
+                                    localStorage.setItem("selected-meal", JSON.stringify(data.results[i]));
+                                };
+                                i++;
+                            };
+                        };
+                    });
+            
                     mealList.appendChild(li);
                 });
             } else {
@@ -56,6 +82,7 @@ searchButton.addEventListener("click", () => {
         .catch(error => {
             console.error("Error fetching data:", error);
         });
+
 });
 
 // clearButton.addEventListener("click", () => {
@@ -89,22 +116,22 @@ searchButton.addEventListener("click", () => {
 });
 
 
-document.addEventListener('click', function(event){
-    event.preventDefault();
-    var list = event.target;
-    if (list.matches("li")){
-        console.log(list.innerText);
-        food = list.innerText;
-        // nutrition(food);
-        var mealNumber;
-        for (var yum of mealNames){
-            if (mealNames[yum] === food){
-                mealNumber = yum;
-                localStorage.setItem(JSON.stringify(data.meals[yum]));
-            };
-        };
-    };
-});
+// document.addEventListener('click', function(event){
+//     event.preventDefault();
+//     var list = event.target;
+//     if (list.matches("li")){
+//         console.log(list.innerText);
+//         food = list.innerText;
+//         // nutrition(food);
+//         var mealNumber;
+//         for (var yum of mealNames){
+//             if (mealNames[yum] === food){
+//                 mealNumber = yum;
+//                 localStorage.setItem("selected-meal", JSON.stringify(data.meals[yum]));
+//             };
+//         };
+//     };
+// });
 
 // function nutrition(foody){
 //     var data = JSON.stringify({
