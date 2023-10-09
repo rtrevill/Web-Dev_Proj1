@@ -47,6 +47,9 @@ if (window.location.pathname.includes("meal.html")) {
                 // detailsHTML += "<h3>Nutrition Values:</h3>";
 
 
+        
+
+
 
 
                 // Call the nutrition function to calculate and display nutrition data
@@ -99,13 +102,18 @@ function search(mealName){
             };
     
         }
+
         $("li").on("click", function() {
             console.log(this.id)
             var food = this.id;
+            var infolink = food.replace(/\ /g,'+');;
+            console.log(infolink);
+            $('#moreInfo').attr("href", 'https://en.wikipedia.org/w/index.php?fulltext=1&search=' + infolink +'&title=Special%3ASearch&ns0=1');    
             console.log(food);
             createPic(food);
           }
         );   // $(ingredient).attr('id', this.strIngredient[i]);
+        
             // $('.menutitle').append(ingredient);
         })
     }
@@ -170,6 +178,20 @@ function createPic(text){
               
           });
   
+
   
   };
+
+  $('#infobtn').on('click', function(event){
+    event.preventDefault();
+  })
+
+  $('#moreInfo').on('click', function(){
+    // $('#moreInfo').attr("href", newLink);
+    console.log(this);
+    window.open(this.href,
+    'targetWindow',
+    'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700,height=600'); 
+return false;
+})
 
