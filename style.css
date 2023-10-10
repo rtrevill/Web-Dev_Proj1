@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-    background-color: rgb(255, 200, 21);
+    background-color: rgb(255, 200, 21); 
     margin: 50px auto;
     padding: 30px;
     width: 70%;
@@ -15,12 +15,11 @@ body {
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+h1, h2, h3 {
     color: black;
-    font-size: 50px;
     margin: 0;
-    text-align: center;
     padding: 20px 0;
+    text-align: center;
 }
 
 form {
@@ -30,16 +29,16 @@ form {
     margin: 20px 0;
 }
 
-.search-bar {
+.search-bar, #meal-full-details, #meal-ingredients, #meal-nutrition, #ingredient-nutrition {
     background-color: floralwhite;
     border: 2px solid grey;
     font-size: 25px;
     padding: 12px;
-    width: 300px;
-    margin-right: 10px;
+    margin: 10px 0;
+    width: 100%;
 }
 
-.search-button {
+.search-button, #infobtn {
     background-color: rgb(216, 216, 216);
     border: 2px solid grey;
     color: black;
@@ -49,6 +48,15 @@ form {
     transition: background-color 0.3s;
 }
 
-.search-button:hover {
+.search-button:hover, #infobtn:hover {
     background-color: rgb(186, 186, 186);
+}
+
+footer {
+    background-color: rgb(255, 200, 21); 
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    font-size: 18px;
+    color: white;
 }
