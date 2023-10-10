@@ -97,6 +97,8 @@ function search(mealName){
             var ingredReal = (mealObject[ingred]);
             var measure = ("strMeasure" + [i]);
             var measureReal = (mealObject[measure]);
+                measureReal = (measureReal.trim());
+                // console.log('b' + measureReal + 'b');
                 if (ingredReal !== ""){
                     console.log(ingredReal, measureReal);
                     var newLi = $('<li>');
@@ -108,10 +110,10 @@ function search(mealName){
                     nutrition(ingredMeasure);
                     console.log(mealCal);
                     }
-               else{
-                console.log(mealCal);
-                document.getElementById("meal-nutrition").textContent = "Calories: " + mealCal;
-                };
+            //    else{
+            //     console.log(mealCal);
+            //     document.getElementById("meal-nutrition").textContent = "Calories: " + mealCal;
+            //     };
             
         }
 
@@ -163,8 +165,8 @@ function nutrition(foody) {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://trackapi.nutritionix.com/v2/natural/nutrients');
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('x-app-id', '8c6f614e');
-    xhr.setRequestHeader('x-app-key', '07619117e8298ed2ae738fe38fe57650');
+    xhr.setRequestHeader('x-app-id', '0ef1d3e0');
+    xhr.setRequestHeader('x-app-key', '1a95c14c3ebb75f91422fcfe967b6621');
 
     var tempo2 = xhr.onload = function () {
         // Parse the nutrition data received from the API
@@ -181,6 +183,7 @@ function nutrition(foody) {
         };
         ingredCalories.push(ingredNut);
         console.log(ingredCalories);
+        mealCal = Math.trunc(mealCal);
         document.getElementById("meal-nutrition").textContent = "Calories: " + mealCal;
 
 
