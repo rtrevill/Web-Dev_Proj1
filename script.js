@@ -33,12 +33,30 @@ searchForm.addEventListener("submit", (event) => {
             if (data.meals) {
                 // If meals are found in the data, iterate through them
                 data.meals.forEach(meal => {
+                    // const mealName = meal.strMeal;
+                    // const li = document.createElement("li");
+                    // li.classList.add("meal-item");
+                    // // Create a link to meal.html with the meal name as a query parameter
+                    // li.innerHTML = `<a href="meal.html?name=${encodeURIComponent(mealName)}">${mealName}</a>`;
+                    // mealList.appendChild(li); // Append the link to the list
                     const mealName = meal.strMeal;
-                    const li = document.createElement("li");
-                    li.classList.add("meal-item");
+                    const recipeImg = meal.strMealThumb;
+                    const recipeDiv = document.createElement("div");
+                    const foodImg = document.createElement('img');
+                    foodImg.src = recipeImg;
+                    console.log(foodImg);
+                    foodImg.height = 120;
+                    foodImg.width = 160;
+                    // li.classList.add("meal-item");
+
                     // Create a link to meal.html with the meal name as a query parameter
-                    li.innerHTML = `<a href="meal.html?name=${encodeURIComponent(mealName)}">${mealName}</a>`;
-                    mealList.appendChild(li); // Append the link to the list
+                    recipeDiv.innerHTML = `<a href="meal.html?name=${encodeURIComponent(mealName)}">${mealName}</a>`;
+                    recipeDiv.appendChild(foodImg);
+
+                    recipeBox.appendChild(recipeDiv); // Append the link to the list
+
+
+
                 });
             } else {
                 mealList.innerHTML = "<li>No meals found.</li>"; // Display a message if no meals are found
@@ -55,3 +73,22 @@ clearButton.addEventListener("click", () => {
     mealNameInput.value = ""; // Clear the input field
     mealList.innerHTML = ""; // Clear the search results
 });
+
+favbutton.addEventListener("click", function(event){
+    event.preventDefault();
+    if (localStorage.getItem("recipe-favs") === null){
+        return
+    }
+    else {
+        var exisRecipe = [];
+        exisRecipe = JSON.parse(localStorage.getItem('recipe-favs'));
+        for (let favs of exisRecipe){
+            const favName = favs;
+            const newLi =  document.createElement("li");
+            newLi.classList.add("fav-meals");
+            newLi.innerHTML = `<a href="meal.html?name=${encodeURIComponent(favs)}">${favs}</a>`;
+            favlist.appendChild(newLi);
+        }
+
+    }
+})
