@@ -35,26 +35,34 @@
         <h1 id="meal-title">BON APPETIT</h1>
         <h2>Meal Details:</h2>
         <!-- Container to display meal details -->
-        <div id="meal-full-details"></div>
-        <!-- List to display meal ingredients -->
-        <ul id="meal-ingredients"></ul>
+        <div id="meal-full-details" class="mb-4"></div>
+
+        <!-- Image for the ingredient -->
+        <img id="wikipic" src="" alt="Ingredient Image" class="w-1/4 mx-auto rounded shadow-lg mb-4">
+
+        <!-- Button to see more info -->
+        <a href="" id="moreInfo" class="block mb-6">
+            <button id="infobtn">Click on me to see more info on ingredient below</button>
+        </a>
+
         <h3>Nutrition Values: - Whole Recipe</h3>
-        <!-- Placeholder for nutrition values, initially set to "Calculating..." -->
-        <p id="meal-nutrition">Calculating...</p>
-        <!-- Link to go back to the search page (index.html) -->
+        <p id="meal-nutrition" class="mb-4">Calculating...</p>
+
         <h3>Nutrition Values: - Ingredient</h3>
-        
-        <p id="ingredient-nutrition"></p>
+        <p id="ingredient-nutrition" class="mb-4"></p>
+
+        <h2>Ingredients:</h2>
+        <!-- List to display meal ingredients -->
+        <ul id="meal-ingredients" class="mb-4"></ul>
 
         <a href="index.html">Back to search</a>
     </div>
-    <a href="" id="moreInfo"><button id="infobtn">Click on me to see more info on ingredient below</button></a>
-    <img id="wikipic" src="" alt="" width="500" height="auto">
 
+    <!-- JavaScript and scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/md5-js-tools@1.0.2/lib/md5.min.js"></script>
-    <!-- Include your JavaScript file for functionality specific to meal.html -->
     <script src="script-meal.js"></script>
+
     <!-- Footer Section -->
     <footer class="bg-orange-900 mt-10 p-4 text-center text-black border border-gray-100 rounded-lg">
         Made by Richard, Khoi, Jason, and William 2023
