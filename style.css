@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-    background-color: rgb(255, 200, 21); 
+    background-color: rgb(255, 200, 21);    
     margin: 50px auto;
     padding: 30px;
     width: 70%;
@@ -29,6 +29,18 @@ form {
     margin: 20px 0;
 }
 
+#meal-title {
+    font-size: 3rem;            
+    font-weight: bold;      
+    text-align: center;    
+    margin-top: 30px;       
+    margin-bottom: 20px;    
+    color: #333;            
+    letter-spacing: 1.5px;  
+    text-transform: uppercase; 
+}
+
+
 .search-bar, #meal-full-details, #meal-ingredients, #meal-nutrition, #ingredient-nutrition {
     background-color: floralwhite;
     border: 2px solid grey;
@@ -38,7 +50,7 @@ form {
     width: 100%;
 }
 
-.search-button, #infobtn {
+.search-button {
     background-color: rgb(216, 216, 216);
     border: 2px solid grey;
     color: black;
@@ -46,6 +58,18 @@ form {
     padding: 12px 20px;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+#infobtn {
+    background-color: rgb(216, 216, 216);
+    border: 2px solid grey;
+    color: black;
+    font-size: 25px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;  
+    margin: 0 auto; 
 }
 
 .search-button:hover, #infobtn:hover {
@@ -59,4 +83,20 @@ footer {
     margin-top: 40px;
     font-size: 18px;
     color: white;
+}
+
+.save-fav-btn {
+    background-color: rgb(216, 216, 216);
+    border: 2px solid grey;
+    color: black;
+    font-size: 20px;  
+    padding: 8px 16px;  
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;  
+    margin: 10px auto;      
+}
+
+.save-fav-btn:hover {
+    background-color: rgb(186, 186, 186);
 }
