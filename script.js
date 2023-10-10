@@ -3,6 +3,9 @@ const searchForm = document.getElementById("search-form"); // The search form
 const clearButton = document.getElementById("clear-button"); // The clear button
 const mealNameInput = document.getElementById("meal-name"); // The input field for meal name
 const mealList = document.getElementById("meals"); // The list to display search results
+const favbutton = document.getElementById("fav-button"); 
+const favlist = document.getElementById("favs-list");
+const recipeBox = document.getElementById("recipe-box");
 
 // Add an event listener to the search form to handle form submission
 searchForm.addEventListener("submit", (event) => {
