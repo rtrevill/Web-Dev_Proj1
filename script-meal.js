@@ -162,12 +162,12 @@ function createPic(text){
     var firstSearchReturn;
 
     // Performs 1st wiki search to return related pages for the ingredient
-    var URL1 = 'http://en.wikipedia.org/w/api.php?action=query&list=search&srsearch='+ text+'&format=json&callback=?';
+    var URL1 = 'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch='+ text+'&format=json&callback=?';
     $.getJSON(URL1, function (data) {
               firstSearchReturn = data.query.search[0].pageid;
   
               
-              var URL2 = 'http://en.wikipedia.org/w/api.php?action=query&pageids='+ firstSearchReturn +'&prop=pageimages&format=json&callback=?';
+              var URL2 = 'https://en.wikipedia.org/w/api.php?action=query&pageids='+ firstSearchReturn +'&prop=pageimages&format=json&callback=?';
             //Performs 2nd wiki search to retrieve the first image from the first page returned in the previous query
               $.getJSON(URL2, function (data) {
               let searchString = firstSearchReturn.toString();
