@@ -1,9 +1,10 @@
 // Check if the page is meal.html
 if (window.location.pathname.includes("meal.html")) {
-    // Get the meal name from the URL query parameter
+    // Define variables
     var nameOfMeal;
     var mealCal=0;
     var ingredCalories = [];
+    // Get the meal name from the URL query parameter
     const mealNameQuery = new URLSearchParams(window.location.search).get("name");
 
     // Fetch meal details from an external API (TheMealDB)
@@ -17,10 +18,10 @@ if (window.location.pathname.includes("meal.html")) {
         })
         .then(data => {
             // Check if meal data is available and if there's at least one meal
-            console.log(data);
             if (data.meals && data.meals.length > 0) {
                 const meal = data.meals[0];
                 nameOfMeal = meal.strMeal;
+            // Create structure and content for displaying meal on page.
                 let detailsHTML = `
                     <h1>${meal.strMeal}</h1>
                     <img src="${meal.strMealThumb}" alt="${meal.strMeal}" width="200">
@@ -30,32 +31,9 @@ if (window.location.pathname.includes("meal.html")) {
                     <h3>Ingredients:</h3>
                     <ul id="ingredient-list">
                 `;
-
+            
+                // Calls function to list ingredients, and attach them to ingredient list
                 search(nameOfMeal);
-           
-                    
-                    
-                //Khoi's original code
-                // Loop through ingredients and measures
-                // for (let i = 1; i <= 20; i++) {
-                //     const ingredient = meal[`strIngredient${i}`];
-                //     const measure = meal[`strMeasure${i}`];
-                //     if (ingredient && measure) {
-                //         detailsHTML += `<li>${ingredient} - ${measure}</li>`;
-                //     }
-                // }
-
-                // detailsHTML += "</ul>";
-                // detailsHTML += "<h3>Nutrition Values:</h3>";
-
-
-        
-
-
-
-
-                // Call the nutrition function to calculate and display nutrition data
-                //nutrition(meal.strMeal);
 
                 // Display meal details in the HTML
                 document.getElementById("meal-full-details").innerHTML = detailsHTML;
@@ -69,38 +47,28 @@ if (window.location.pathname.includes("meal.html")) {
             console.error("Error fetching meal details:", error);
             document.getElementById("meal-title").textContent = "Error loading meal details. Please try again later.";
         });
-    // document.getElementById("meal-nutrition").textContent = "Calories: " + mealCal;
 
-}
+};
 
 
+// Function to retrieve and list ingredients
 function search(mealName){
-    console.log(mealName);
     $('#ingredient-list').empty();
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         var mealObject = data.meals[0];
     
-        // var title = mealObject.strMeal;
-        // console.log(mealObject);
-        // // var i=0;
-        // var header = $('<ul>')
-        // $(header).attr('class', 'menuTitle');
-        // $(header).text(title);
-    
-        // $('#ingredient-list').append(header);
-        for (var i=1; i < 20; i++){
-            // console.log(this);
+        // Loops through 20 tmes to find maximum of 20 ingredients and measurements.
+        for (var i = 1; i <= 20; i++){
             var ingred = ("strIngredient" + [i]);
             var ingredReal = (mealObject[ingred]);
             var measure = ("strMeasure" + [i]);
             var measureReal = (mealObject[measure]);
                 measureReal = (measureReal.trim());
-                // console.log('b' + measureReal + 'b');
+                // Create a list item for the ingredient (if present) and related measurement
+                // Also run function for nutrition API for that ingredient
                 if (ingredReal !== ""){
-                    console.log(ingredReal, measureReal);
                     var newLi = $('<li>');
                     $(newLi).attr('id', ingredReal);
                     $(newLi).addClass("ingredient");
@@ -108,49 +76,40 @@ function search(mealName){
                     $('#ingredient-list').append(newLi);
                     var ingredMeasure = (measureReal + " " + ingredReal);
                     nutrition(ingredMeasure);
-                    console.log(mealCal);
                     }
-            //    else{
-            //     console.log(mealCal);
-            //     document.getElementById("meal-nutrition").textContent = "Calories: " + mealCal;
-            //     };
-            
-        }
+        };
 
+        // Event handler for newly created ingredient list elements.
+        // Passes a href value to the anchor attached to the ingredient info button, then runs function to display picture
         $("li").on("click", function() {
-            console.log(this.id)
             var food = this.id;
             var infolink = food.replace(/\ /g,'+');;
-            console.log(infolink);
             $('#moreInfo').attr("href", 'https://en.wikipedia.org/w/index.php?fulltext=1&search=' + infolink +'&title=Special%3ASearch&ns0=1');    
-            console.log(food);
             createPic(food);
           }
-        );   // $(ingredient).attr('id', this.strIngredient[i]);
+        );   
         
-
+        // Event handler for hovering over ingredients. 
+        // Will display ingredient's calorie amount (pulled from array) in paragraph
         $("li").hover(function() {
-            console.log(this.innerText);
-            // console.log(ingredCalories[0].namey);
             for (let names in ingredCalories){
-                // console.log(this);
                 if ((ingredCalories[names].namey)===(this.innerText)){
-                console.log(ingredCalories[names].namey, ingredCalories[names].calories);
                 $('#ingredient-nutrition').text(ingredCalories[names].namey + " "+ ingredCalories[names].calories + " calories");
     
                 };
     
             };
-            
-            
     
         })
-            // $('.menutitle').append(ingredient);
-        // document.getElementById("meal-nutrition").textContent = "Calories: " + mealCal;
 
         })
-    }
-
+    .catch(error => {
+        // Handle errors related to fetching ingredient details
+        console.error("Error fetching ingredient details:", error);
+        document.getElementById("ingredient-list").textContent = "Error loading ingredients details. Please try again later.";
+    });
+    
+}
 
 
 // ***** THIS FUNCTION BELOW IS INTERGRATED FROM RICHARD WORKS *****
@@ -168,83 +127,82 @@ function nutrition(foody) {
     xhr.setRequestHeader('x-app-id', '0ef1d3e0');
     xhr.setRequestHeader('x-app-key', '1a95c14c3ebb75f91422fcfe967b6621');
 
-    var tempo2 = xhr.onload = function () {
+    xhr.onload = function () {
         // Parse the nutrition data received from the API
         var butterNutrients = JSON.parse(xhr.response);
         ingredientNutrition = butterNutrients.foods[0].nf_calories;
 
-        console.log(ingredientNutrition);
+        //Adds calories of current ingredient to total recipe calories
         mealCal += ingredientNutrition;
-        // Display the calculated calories (nutrition) in the HTML
-        // document.getElementById("meal-nutrition").textContent = "Calories: " + ingredientNutrition;
+
+        // Assigns the ingredient (and measurement) name and calories to an object 
         var ingredNut = {
             "namey": foody,
             "calories" : ingredientNutrition,
         };
+
+        //Ingredient object is added to array containing all the ingredients with their calories
         ingredCalories.push(ingredNut);
-        console.log(ingredCalories);
+
+        //Removes decimal points from total meal calories, and displays total on page.
         mealCal = Math.trunc(mealCal);
         document.getElementById("meal-nutrition").textContent = "Calories: " + mealCal;
-
-
     };
 
     // Send the nutrition API request
     xhr.send(data);
     
-}
+};
 
+//Function to display related picture of ingredient
 function createPic(text){
+
+    //Displays 'loading' picture while function is being run
     $('#wikipic').attr('src', 'https://as1.ftcdn.net/v2/jpg/04/25/61/02/1000_F_425610274_iTsjecWWkw4C37CDp5EBclLZg7x4fsKE.jpg');
     var firstSearchReturn;
+
+    // Performs 1st wiki search to return related pages for the ingredient
     var URL1 = 'http://en.wikipedia.org/w/api.php?action=query&list=search&srsearch='+ text+'&format=json&callback=?';
-    // URL1 += "&callback=?";
     $.getJSON(URL1, function (data) {
-              console.log(data);
               firstSearchReturn = data.query.search[0].pageid;
   
+              
               var URL2 = 'http://en.wikipedia.org/w/api.php?action=query&pageids='+ firstSearchReturn +'&prop=pageimages&format=json&callback=?';
-                // URL2 += "&callback=?";
-  
+            //Performs 2nd wiki search to retrieve the first image from the first page returned in the previous query
               $.getJSON(URL2, function (data) {
               let searchString = firstSearchReturn.toString();
-             
-              console.log(data);
               var pic1 = (data.query.pages[searchString].pageimage).toString();
              
+              // Generates an MD5 hash of the returned pic name
+              // Then creates 2 sections of the returned hash which relate to the final URL of the pic to be displayed
               var hash = MD5.generate(pic1);
-              console.log(hash);
               var hash1 = hash.substr(0,1);
               var hash2 = hash.substr(0,2);
               $('#wikipic').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/' + hash1 + '/' + hash2 + '/' + pic1);
-  
-              
-              
-          });
-              
-          });
-  
 
+          });
+
+
+          });
   
   };
 
+  //Event handler to prevent page reload if any button is pressed
   $('button').on('click', function(event){
     event.preventDefault();
-  })
+  });
 
+  //Event handler to open new window with a wiki search for the current ingredient if the 'more info' button is pressed 
   $('#moreInfo').on('click', function(){
-    // $('#moreInfo').attr("href", newLink);
-    console.log(this);
     window.open(this.href,
     'targetWindow',
     'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700,height=600'); 
 return false;
-})
+});
 
+//Event handler that, when 'add to favourites' button is pressed, checks local storage and adds the current meal to list of favourites
 $('#fav-btn').on('click', function(){
-    // var fav = {}
     var fav = nameOfMeal;
-    console.log(fav);
     if (localStorage.getItem("recipe-favs") === null){
         var exisRecipe = []
         exisRecipe.push(fav);

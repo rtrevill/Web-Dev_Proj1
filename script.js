@@ -3,9 +3,9 @@ const searchForm = document.getElementById("search-form"); // The search form
 const clearButton = document.getElementById("clear-button"); // The clear button
 const mealNameInput = document.getElementById("meal-name"); // The input field for meal name
 const mealList = document.getElementById("meals"); // The list to display search results
-const favbutton = document.getElementById("fav-button"); 
-const favlist = document.getElementById("favs-list");
-const recipeBox = document.getElementById("recipe-box");
+const favbutton = document.getElementById("fav-button"); //Button to display favourites
+const favlist = document.getElementById("favs-list"); //UL element to attach favourite LI elements to 
+const recipeBox = document.getElementById("recipe-box"); //Div that will contain recipe cards
 
 // Add an event listener to the search form to handle form submission
 searchForm.addEventListener("submit", (event) => {
@@ -34,14 +34,8 @@ searchForm.addEventListener("submit", (event) => {
         .then(data => {
             console.log(data);
             if (data.meals) {
-                // If meals are found in the data, iterate through them
+                // If meals are found in the data, iterate through them, create a div and define the image dimensions.
                 data.meals.forEach(meal => {
-                    // const mealName = meal.strMeal;
-                    // const li = document.createElement("li");
-                    // li.classList.add("meal-item");
-                    // // Create a link to meal.html with the meal name as a query parameter
-                    // li.innerHTML = `<a href="meal.html?name=${encodeURIComponent(mealName)}">${mealName}</a>`;
-                    // mealList.appendChild(li); // Append the link to the list
                     const mealName = meal.strMeal;
                     const recipeImg = meal.strMealThumb;
                     const recipeDiv = document.createElement("div");
@@ -50,15 +44,12 @@ searchForm.addEventListener("submit", (event) => {
                     console.log(foodImg);
                     foodImg.height = 120;
                     foodImg.width = 160;
-                    // li.classList.add("meal-item");
 
                     // Create a link to meal.html with the meal name as a query parameter
                     recipeDiv.innerHTML = `<a href="meal.html?name=${encodeURIComponent(mealName)}">${mealName}</a>`;
                     recipeDiv.appendChild(foodImg);
 
-                    recipeBox.appendChild(recipeDiv); // Append the link to the list
-
-
+                    recipeBox.appendChild(recipeDiv); // Append the card to the containing box
 
                 });
             } else {
@@ -77,6 +68,8 @@ clearButton.addEventListener("click", () => {
     mealList.innerHTML = ""; // Clear the search results
 });
 
+// Add an event listener to the 'display favourites' button that will detect if there are items in local storage.
+// If there are, will display a list of the favourites as links that will open the recipe in meal.html 
 favbutton.addEventListener("click", function(event){
     event.preventDefault();
     if (localStorage.getItem("recipe-favs") === null){
@@ -86,7 +79,6 @@ favbutton.addEventListener("click", function(event){
         var exisRecipe = [];
         exisRecipe = JSON.parse(localStorage.getItem('recipe-favs'));
         for (let favs of exisRecipe){
-            const favName = favs;
             const newLi =  document.createElement("li");
             newLi.classList.add("fav-meals");
             newLi.innerHTML = `<a href="meal.html?name=${encodeURIComponent(favs)}">${favs}</a>`;
