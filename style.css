@@ -118,3 +118,11 @@ footer {
 .save-fav-btn:hover {
     background-color: rgb(186, 186, 186);
 }
+
+/* --- Modal Styles --- */
+#closeModal {
+    font-size: 24px;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 5px;
+    border-radius: 50%;
+}
