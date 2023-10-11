@@ -58,13 +58,14 @@ function search(mealName){
     .then(response => response.json())
     .then(data => {
         var mealObject = data.meals[0];
-    
+        console.log(data);
         // Loops through 20 tmes to find maximum of 20 ingredients and measurements.
         for (var i = 1; i <= 20; i++){
             var ingred = ("strIngredient" + [i]);
             var ingredReal = (mealObject[ingred]);
             var measure = ("strMeasure" + [i]);
             var measureReal = (mealObject[measure]);
+            if (measureReal !== null){
                 measureReal = (measureReal.trim());
                 // Create a list item for the ingredient (if present) and related measurement
                 // Also run function for nutrition API for that ingredient
@@ -76,7 +77,7 @@ function search(mealName){
                     $('#ingredient-list').append(newLi);
                     var ingredMeasure = (measureReal + " " + ingredReal);
                     nutrition(ingredMeasure);
-                    }
+                    }}
         };
 
         // Event handler for newly created ingredient list elements.
