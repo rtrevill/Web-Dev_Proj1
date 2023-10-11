@@ -154,38 +154,38 @@ function nutrition(foody) {
     
 };
 
-//Function to display related picture of ingredient
-function createPic(text){
-
+function createPic(text) {
     //Displays 'loading' picture while function is being run
     $('#wikipic').attr('src', 'https://as1.ftcdn.net/v2/jpg/04/25/61/02/1000_F_425610274_iTsjecWWkw4C37CDp5EBclLZg7x4fsKE.jpg');
-    var firstSearchReturn;
-
+    
     // Performs 1st wiki search to return related pages for the ingredient
-    var URL1 = 'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch='+ text+'&format=json&callback=?';
-    $.getJSON(URL1, function (data) {
-              firstSearchReturn = data.query.search[0].pageid;
-  
-              
-              var URL2 = 'https://en.wikipedia.org/w/api.php?action=query&pageids='+ firstSearchReturn +'&prop=pageimages&format=json&callback=?';
-            //Performs 2nd wiki search to retrieve the first image from the first page returned in the previous query
-              $.getJSON(URL2, function (data) {
-              let searchString = firstSearchReturn.toString();
-              var pic1 = (data.query.pages[searchString].pageimage).toString();
-             
-              // Generates an MD5 hash of the returned pic name
-              // Then creates 2 sections of the returned hash which relate to the final URL of the pic to be displayed
-              var hash = MD5.generate(pic1);
-              var hash1 = hash.substr(0,1);
-              var hash2 = hash.substr(0,2);
-              $('#wikipic').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/' + hash1 + '/' + hash2 + '/' + pic1);
+    var URL1 = 'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=' + text + '&format=json&callback=?';
+    
+    $.getJSON(URL1, function(data) {
+        if (data.query.search.length === 0) {
+            // Handle case where no related pages were found
+            $('#wikipic').attr('src', 'corgichef.jpg');  // Using your local image as a placeholder
+            return;
+        }
 
-          });
+        var firstSearchReturn = data.query.search[0].pageid;
+        var URL2 = 'https://en.wikipedia.org/w/api.php?action=query&pageids=' + firstSearchReturn + '&prop=pageimages&pilimit=1&format=json&callback=?';
 
+        // Performs 2nd wiki search to retrieve the image from the first page returned in the previous query
+        $.getJSON(URL2, function(data) {
+            var pages = data.query.pages;
+            var page = pages[firstSearchReturn];
+            
+            if (page && page.thumbnail && page.thumbnail.source) {
+                $('#wikipic').attr('src', page.thumbnail.source);
+            } else {
+                // Handle case where no image was found on the page
+                $('#wikipic').attr('src', 'corgichef.jpg');  // Using your local image as a placeholder
+            }
+        });
+    });
+};
 
-          });
-  
-  };
 
   //Event handler to prevent page reload if any button is pressed
   $('button').on('click', function(event){
