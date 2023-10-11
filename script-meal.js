@@ -58,7 +58,7 @@ function search(mealName){
     .then(response => response.json())
     .then(data => {
         var mealObject = data.meals[0];
-        console.log(data);
+        
         // Loops through 20 tmes to find maximum of 20 ingredients and measurements.
         for (var i = 1; i <= 20; i++){
             var ingred = ("strIngredient" + [i]);
