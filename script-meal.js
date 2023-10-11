@@ -165,7 +165,7 @@ function createPic(text) {
     $.getJSON(URL1, function(data) {
         if (data.query.search.length === 0) {
             // Handle case where no related pages were found
-            $('#wikipic').attr('src', 'corgichef.jpg');  // Using your local image as a placeholder
+            $('#wikipic').attr('src', 'corgichef2.png');  // Using your local image as a placeholder
             return;
         }
 
@@ -176,12 +176,22 @@ function createPic(text) {
         $.getJSON(URL2, function(data) {
             var pages = data.query.pages;
             var page = pages[firstSearchReturn];
-            
-            if (page && page.thumbnail && page.thumbnail.source) {
-                $('#wikipic').attr('src', page.thumbnail.source);
+            console.log(data);
+            if (page && page.pageimage) {
+  
+                let searchString = firstSearchReturn.toString();
+                var pic1 = (data.query.pages[searchString].pageimage).toString();
+    
+                // Generates an MD5 hash of the returned pic name
+                // Then creates 2 sections of the returned hash which relate to the final URL of the pic to be displayed
+                var hash = MD5.generate(pic1);
+                var hash1 = hash.substr(0,1);
+                var hash2 = hash.substr(0,2);
+                $('#wikipic').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/' + hash1 + '/' + hash2 + '/' + pic1);
+
             } else {
                 // Handle case where no image was found on the page
-                $('#wikipic').attr('src', 'corgichef.jpg');  // Using your local image as a placeholder
+                $('#wikipic').attr('src', 'corgichef2.png');  // Using your local image as a placeholder
             }
         });
     });
