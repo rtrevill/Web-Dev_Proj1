@@ -20,8 +20,9 @@ searchForm.addEventListener("submit", (event) => {
         return; // Exit the function
     }
 
-    mealList.innerHTML = ""; // Clear the previous search results
-
+    recipeBox.innerHTML = ""; // Clear the previous search results
+    favlist.innerHTML = "";
+    
         // Fetch meal data from an external API (TheMealDB)
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${queryMealName}`)
         .then(response => {
@@ -65,6 +66,7 @@ searchForm.addEventListener("submit", (event) => {
 clearButton.addEventListener("click", () => {
     mealNameInput.value = ""; // Clear the input field
     recipeBox.innerHTML = ""; // Clear the search results
+    favlist.innerHTML = "";
 });
 // Add an event listener to the 'display favourites' button that will detect if there are items in local storage.
 // If there are, will display a list of the favourites as links that will open the recipe in meal.html 
