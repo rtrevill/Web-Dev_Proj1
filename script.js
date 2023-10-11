@@ -53,19 +53,19 @@ searchForm.addEventListener("submit", (event) => {
 
                 });
             } else {
-                mealList.innerHTML = "<li>No meals found.</li>"; // Display a message if no meals are found
+                recipeBox.innerHTML = "<li>No meals found.</li>"; // Display a message if no meals are found
             }
         })
         .catch(error => {
             console.error("Error fetching data:", error);
-            mealList.innerHTML = "<li>Error loading meals. Please try again later.</li>"; // Handle errors
+            recipeBox.innerHTML = "<li>Error loading meals. Please try again later.</li>"; // Handle errors
         });
 });
 
 // Add an event listener to the clear button to reset the input and search results
 clearButton.addEventListener("click", () => {
     mealNameInput.value = ""; // Clear the input field
-    mealList.innerHTML = ""; // Clear the search results
+    recipeBox.innerHTML = ""; // Clear the search results
 });
 
 // Add an event listener to the 'display favourites' button that will detect if there are items in local storage.
