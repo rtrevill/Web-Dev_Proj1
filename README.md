@@ -1,4 +1,4 @@
-# Munchies a Recipe finder 
+# Munchies Recipe finder 
 
 ## Table of Contents
 
@@ -30,6 +30,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Screenshot
 
-! [Home Page](./munchies1.png)
-! [Dishes](./Munchies2.png)
-! [Recipe](./munchies3.png)
+![Home Page](./munchies1.png)
+![Dishes](./Munchies2.png)
+![Recipe](./munchies3.png)
