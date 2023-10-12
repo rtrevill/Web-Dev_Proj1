@@ -5,7 +5,14 @@ body {
     font-size: 16px;
     margin: 0;
     padding: 0;
+    background-image: url(./Background-img.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+
 }
+
 
 /* --- Main Container Style --- */
 .container {
@@ -126,3 +133,42 @@ footer {
     padding: 5px;
     border-radius: 50%;
 }
+
+#recipe-box {
+    display: grid;
+    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    margin: 40px 0;
+  }
+  
+  #recipe-box > div {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  #recipe-box img {
+    border-radius: 8px;
+    margin-bottom: 20px;
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+  }
+    
+  #recipe-box a {
+    background-color: #f49030;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+  
+  #recipe-box a:hover {
+    background-color: 	#ef863d;
+  }
