@@ -1,4 +1,4 @@
-# Munchies a Recipe finder 
+# Munchies Recipe finder 
 
 ## Table of Contents
 
