@@ -125,8 +125,8 @@ function nutrition(foody) {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://trackapi.nutritionix.com/v2/natural/nutrients');
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('x-app-id', '0ef1d3e0');
-    xhr.setRequestHeader('x-app-key', '1a95c14c3ebb75f91422fcfe967b6621');
+    xhr.setRequestHeader('x-app-id', '8c6f614e');
+    xhr.setRequestHeader('x-app-key', '07619117e8298ed2ae738fe38fe57650');
 
     xhr.onload = function () {
         // Parse the nutrition data received from the API
